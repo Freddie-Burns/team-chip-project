@@ -1,4 +1,5 @@
-from ltphotonics.lightrig import LightRig
+from lightrig.lightrig import LightRig
+from pathlib import Path
 
 if __name__ == '__main__':
     # ---------- Technology settings -------------
@@ -14,12 +15,12 @@ if __name__ == '__main__':
     # USB port for powermeter 'USB0::4883::32888::P0001012::0::INSTR'
 
     # Define laser params
-    laser_port_name = 5
-    laser_channel = 340
+    laser_port_name = 7
+    laser_channel = 1
 
-    local_optimisation_scan_range_um = 10
+    local_optimisation_scan_range_um = 4
     coupling_threshold_dB = -30
-    foldername = 'sweep_data'
+    foldername = Path("sweep_data")
 
     # ---------- Connect to LightRig -------------
 
@@ -33,8 +34,8 @@ if __name__ == '__main__':
     )
 
     # Read in structure dictionary
-    device.read_port_CSV('e.csv')
-    port_dict_exampl
+    device.read_port_CSV('device_coords_01.csv')
+
     # Run scan with additional settings
     device.scan(
         local_optimisation_scan_range_um=local_optimisation_scan_range_um,
