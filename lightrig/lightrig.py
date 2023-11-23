@@ -20,6 +20,8 @@ import threading
 
 __version__ = "1.0.0"
 
+U_STEP = 2
+
 # Errors realting to the driver, as defined by Qontrol Systems
 QONTROL_ERRORS = {
 	0:'Unknown error.',
@@ -196,7 +198,7 @@ class LightRig(object):
 		# Setup laser tech
 		if self.laser is None:
 			try:
-				self.laser = Laser(laser_COM_port = self.laser_port_name, channel = self.laser_channel)
+				self.laser = Laser(laser_COM_port=self.laser_port_name, channel=self.laser_channel)
 			except:
 				self.log_append(type='err', id='117')
 
@@ -269,7 +271,12 @@ class LightRig(object):
 
 		return self.device_dict
 
-	def scan(self, local_optimisation_scan_range_um = 10, coupling_threshold_dB = -30, foldername = Path(os.path.realpath(__file__)).parent/'Results'):
+	def scan(
+			self,
+			local_optimisation_scan_range_um=10,
+			coupling_threshold_dB=-30,
+			foldername=Path(os.path.realpath(__file__)).parent/'Results'
+	):
 
 		self.coupling_threshold_dB = coupling_threshold_dB
 		self.local_optimisation_scan_range_um = local_optimisation_scan_range_um
@@ -279,11 +286,11 @@ class LightRig(object):
 			try:
 				self.laser.switch_on()
 			except:
-				self.log_append(type = 'err', id = '118')
+				self.log_append(type='err', id='118')
 
 		# Prepare folder for saving data
 		if os.path.exists(foldername):
-			foldername += f" {timestamp()}"
+			foldername = foldername / f"_{timestamp()}"
 
 		# Check folder exists, if not then make it
 		try: 
@@ -394,7 +401,7 @@ class LightRig(object):
 			self.device_dict[i].update({'results': device_data})
 
 			# Write data to file incase the scan crashes
-			with open(foldername/'id_{:}.csv'.format(i), "w", newline="") as file:
+			with open(foldername / 'id_{:}.csv'.format(i), "w", newline="") as file:
 				writer = csv.writer(file)
 				writer.writerows(device_data)
 
@@ -408,7 +415,7 @@ class LightRig(object):
 		"""
 
 		# Calculate number of inital grid poitns -> scans grid_N x grid_N, spaced 3.175um apart, centered on the inital position
-		grid_N = int(np.ceil(scan_range_um/self.dudx[0]))
+		grid_N = int(np.ceil(scan_range_um/self.dudx[U_STEP]))
 
 		# Hack - if grid_N is odd, then add one to make it even
 		if (grid_N % 2 == 1) :
@@ -476,6 +483,14 @@ class LightRig(object):
 				_ = self.pms[preferred_pm-1].measure()
 				measurements.append(_)
 				# measurements.append(randrange(100))
+
+			power_array = np.array(measurements)
+			power_array = power_array.reshape((2*N+1, 2*N+1))
+
+			for i in range(0, 2*N+1, 2):
+				power_array[i] = np.flip(power_array[i])
+
+			np.savetxt("coupling_heatmap.csv", power_array, delimiter=',')
 
 			# Move back to optimal spot and switch to next ustep
 			p_opt = len(measurements)-np.argmax(measurements)-1
@@ -638,6 +653,7 @@ class Powermeter(object):
 		self.log_handler = None         # Function which catches log dictionaries
 		self.log_to_stdout = True       # Copy new log entries to stdout
 		self.init_time = time.time()
+		self.instr = None
 
 		# Get arguments from init
 		# Populate parameters, if provided
@@ -660,59 +676,58 @@ class Powermeter(object):
 		for r in resources:
 			if self.serial in r.split('::'):
 				pm_serial = r
-				instr = rm.open_resource(pm_serial, read_termination = '\n')
+				self.instr = rm.open_resource(pm_serial, read_termination='\n')
 				print('Resource is {:}'.format(pm_serial))
 	
 		# Throw error if connection failed
-		if instr == None:
+		if self.instr is None:
 			self.log_append(type='err', id = 201)
 
 
 	def measure(self, channel = 1):
-
 		if os.name == 'posix':
 			r = float(self.instr.query('READ?'))
-			result_W = float(self.instr.query('read?;*OPC?', delay=self.read_timeout).split(";")[0])
+			result_w = float(self.instr.query('read?;*OPC?', delay=self.read_timeout).split(";")[0])
 
-			if math.isnan(result_W):
-				result_W = 0.
+			if math.isnan(result_w):
+				result_w = 0.
 			if self.unit == 'W':
-				return result_W
+				return result_w
 			elif self.unit == 'mW':
-				return result_W * 1000
+				return result_w * 1000
 			elif self.unit == 'dBm':
-				return (10 * math.log( result_W * 1000, 10) ) if result_W > 0 else float('nan')
+				return (10 * math.log( result_w * 1000, 10) ) if result_w > 0 else float('nan')
 			
 		else:
 			if (self.model == 'PM100D' or self.model == 'PM100USB'):
-				result_W = float(self.instr.query('MEASure:POWer?'))
-			elif (self.model == 'N7747A'):
-				if (channel not in [1,2]):
+				result_w = float(self.instr.query('MEASure:POWer?'))
+			elif self.model == 'N7747A':
+				if channel not in [1,2]:
 					raise AttributeError ('Channel number for model {0} must be in [1,2]. Specified channel {1} is invalid.'.format(self.model, channel))
-				result_W = float(self.instr.query('read{ch}:pow?'.format(ch = channel), delay=self.read_timeout))
+				result_w = float(self.instr.query('read{ch}:pow?'.format(ch = channel), delay=self.read_timeout))
 			else:
 				raise AttributeError('Unknown model "{0}".'.format(self.model))
 	
-			if math.isnan(result_W):
-				result_W = 0.
+			if math.isnan(result_w):
+				result_w = 0.
 	
 			if self.unit == 'W':
-				return result_W
+				return result_w
 			elif self.unit == 'mW':
-				return result_W * 1000
+				return result_w * 1000
 			elif self.unit == 'dBm':
-				return (10 * math.log( result_W * 1000, 10) ) if result_W > 0 else float('nan')
+				return (10 * math.log( result_w * 1000, 10) ) if result_w > 0 else float('nan')
 
 	def set_wavelength(self, wl_nm):
-		r = self.instr.write('sense:correction:wav {0}'.format(wl_nm))
+		r = self.laser.write('sense:correction:wav {0}'.format(wl_nm))
 		sleep(0.005)
 		
 	def get_wavelength(self):
-		r = float(self.instr.query('sense:correction:wav?'))/1e-9
+		r = float(self.laser.query('sense:correction:wav?'))/1e-9
 		return r
 
 	def set_averages(self, n_averages):
-		self.instr.write('sens:aver {0}'.format(n_averages))
+		self.laser.write('sens:aver {0}'.format(n_averages))
 		sleep(0.005)
 	
 	def get_statistics(self, n_counts = 100, channel = 1):
@@ -797,10 +812,9 @@ class Laser(object):
 		return
 
 	def laser_enable(self):
-		response = self.laser.query("CH{:}:ENABLE".format(self.channel)).strip()
-		if not response == "CH{:}:OK".format(self.channel):
-			raise Exception("Error: {}".format(response))
-
+		response = self.laser.query(f"CH{self.channel}:ENABLE").strip()
+		if not response == f"CH{self.channel}:OK":
+			raise Exception(f"Error: {response}")
 		return
 
 	def switch_on(self):
