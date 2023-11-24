@@ -658,3 +658,15 @@ class LightRig(object):
 					1000 * self.log[i]['proctime'], self.log[i]['type'],
 					self.log[i]['id']) + ' ' + ERRORS[int(self.log[i]['id'])],
 					  self.log[i]['info'])
+
+
+class ManualCouple:
+	def __init__(self, motor: qontrol.MXMotor):
+		self.motor = motor
+
+	def __enter__(self):
+		self.x = self.motor.get_value('1', 'X0')
+		self.y = self.motor.get_value('1', 'X2')
+
+	def __exit__(self, exc_type, exc_val, exc_tb):
+		self.motor.set_all_values()
