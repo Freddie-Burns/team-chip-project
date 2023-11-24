@@ -5,6 +5,7 @@ import os
 import time
 from collections import deque as fifo
 
+import numpy as np
 import pyvisa
 
 from lightrig.errors import ERRORS
@@ -117,7 +118,7 @@ class Powermeter(object):
 
     def set_wavelength(self, wl_nm):
         r = self.laser.write('sense:correction:wav {0}'.format(wl_nm))
-        sleep(0.005)
+        time.sleep(0.005)
 
     def get_wavelength(self):
         r = float(self.laser.query('sense:correction:wav?')) / 1e-9
@@ -125,7 +126,7 @@ class Powermeter(object):
 
     def set_averages(self, n_averages):
         self.laser.write('sens:aver {0}'.format(n_averages))
-        sleep(0.005)
+        time.sleep(0.005)
 
     def get_statistics(self, n_counts=100, channel=1):
         data = []
@@ -135,14 +136,14 @@ class Powermeter(object):
                 data.append(power)
             else:
                 return {"mean": math.nan, "stdev": math.nan, "data": []}
-            sleep(0.05)
+            time.sleep(0.05)
         if data:
             mean = sum(data) / len(data)
             stats = {
                 "min": min(data),
                 "max": max(data),
                 "mean": mean,
-                "stdev": std(array(data), axis=0),
+                "stdev": np.std(np.array(data), axis=0),
                 "data": data
             }
             return stats
