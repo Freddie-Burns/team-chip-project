@@ -12,22 +12,19 @@ from lightrig.errors import ERRORS
 
 class Powermeter(object):
     """
-
 	Class which handles Thorlabs powermeter setup, user interfacing, and data processing.
 
-	 model = None               Photodiode model e.g. 'PM100USB
-	 serial = None              Photodiode serial e.g. 'PM000192
-	 unit = None         	    Unit settings {'W', 'mW', 'dBm'}
-	 wavelength = None          Central wavelength [nm]
-	 average = 10  			    Number of measurements to average over [int]
-	 read_timeout = 0.5         Readout cut off time [s]
+    model = None               Photodiode model e.g. 'PM100USB
+	serial = None              Photodiode serial e.g. 'PM000192
+	unit = None         	   Unit settings {'W', 'mW', 'dBm'}
+	wavelength = None          Central wavelength [nm]
+	average = 10  			   Number of measurements to average over [int]
+	read_timeout = 0.5         Readout cut off time [s]
 
-	 log = fifo(maxlen = 256)   Log FIFO of communications
-	 log_handler = None         Function which catches log dictionaries
-	 log_to_stdout = True       Copy new log entries to stdout
-
+	log = fifo(maxlen = 256)   Log FIFO of communications
+	log_handler = None         Function which catches log dictionaries
+	log_to_stdout = True       Copy new log entries to stdout
 	"""
-
     def __init__(self, *args, **kwargs):
         """
 		Initialiser.

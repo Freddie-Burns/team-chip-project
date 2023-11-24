@@ -34,11 +34,11 @@ if __name__ == '__main__':
     )
 
     # Read in structure dictionary
-    device.read_port_CSV('device_coords_01.csv')
+    device.read_port_csv('device_coords_01.csv')
 
     # Run scan with additional settings
     device.scan(
         local_optimisation_scan_range_um=local_optimisation_scan_range_um,
-        coupling_threshold_dB=coupling_threshold_dB,
+        coupling_threshold_db=coupling_threshold_dB,
         foldername=foldername
     )
