@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     local_optimisation_scan_range_um = 4
     coupling_threshold_dB = -30
-    foldername = Path("sweep_data")
+    foldername = Path("../sweep_data")
 
     # ---------- Connect to LightRig -------------
 
