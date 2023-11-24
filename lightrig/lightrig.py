@@ -49,6 +49,11 @@ def dB_to_mW(dB):
 	return 10 * np.log10(dB)
 
 
+def mW_to_dB(mW):
+	"""Power unit converter"""
+	return 10 ** (mW / 10)
+
+
 class LightRig(object):
 	"""
 	Class which handles tech setup, user interfacing, and data processing.
@@ -90,9 +95,10 @@ class LightRig(object):
 		# Set a time benchmark
 		self.init_time = time.time()
 
-		# Initiate device dictionary & list of photodidoe devices
+		# Initiate device dictionary & list of photodiode devices
 		self.device_dict = {}
-		self.pms = [None]  # List of thorlabs photodiode devices can be passed in
+		self.pms = [None]  # List of Thorlabs photodiode devices can be
+		# passed in
 		self.laser = None
 
 		# Define XYZ motor channel defaults
@@ -167,8 +173,10 @@ class LightRig(object):
 		# Setup laser tech
 		if self.laser is None:
 			try:
-				self.laser = Laser(laser_COM_port=self.laser_port_name,
-								   channel=self.laser_channel)
+				self.laser = Laser(
+					laser_COM_port=self.laser_port_name,
+					channel=self.laser_channel,
+				)
 			except:
 				self.log_append(type='err', id='117')
 
@@ -184,7 +192,8 @@ class LightRig(object):
 		"""
 		Reads in CSV of devices to scan.
 		Requires headings:
-			id,	port_x_position_um,	port_y_position_um,	number_of_channels, optimisation_channel, wavelength_start_nm, wavelength_stop_nm, steps
+			id,	port_x_position_um,	port_y_position_um,	number_of_channels,
+			optimisation_channel, wavelength_start_nm, wavelength_stop_nm, steps
 
 		Args:
 			arg1: String to csv path.
