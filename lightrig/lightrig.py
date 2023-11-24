@@ -667,7 +667,7 @@ class ManualCouple:
 
 	def __enter__(self):
 		self.x = self.motor.get_value('1', 'X0')
-		self.y = self.motor.get_value('1', 'X2')
+		self.y = self.motor.get_value('1', 'X1')
 
 	def __exit__(self, exc_type, exc_val, exc_tb):
 		self.motor.set_all_values()
