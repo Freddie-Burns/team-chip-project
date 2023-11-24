@@ -76,10 +76,12 @@ class Powermeter(object):
 
     def measure(self, channel=1):
         if os.name == 'posix':
-            r = float(self.instr.query('READ?'))
+            self.instr.query('READ?')
             result_w = float(
-                self.instr.query('read?;*OPC?', delay=self.read_timeout).split(
-                    ";")[0])
+                self.instr.query(
+                    'read?;*OPC?',
+                    delay=self.read_timeout).split(";")[0],
+            )
 
             if math.isnan(result_w):
                 result_w = 0.
@@ -117,7 +119,7 @@ class Powermeter(object):
                                       10)) if result_w > 0 else float('nan')
 
     def set_wavelength(self, wl_nm):
-        r = self.laser.write('sense:correction:wav {0}'.format(wl_nm))
+        self.laser.write('sense:correction:wav {0}'.format(wl_nm))
         time.sleep(0.005)
 
     def get_wavelength(self):
@@ -164,7 +166,7 @@ class Powermeter(object):
 		"""
         # Append to log fifo
         self.log.append({'timestamp': time.asctime(),
-                         'proctime': round(time.time() - self.init_time, 3),
+                         'process_time': round(time.time() - self.init_time, 3),
                          'type': type, 'id': int(id)})
         # Send to handler function (if defined)
         if self.log_handler is not None:
@@ -182,5 +184,5 @@ class Powermeter(object):
 
         for i in range(-n, 0):
             print('@ {0: 8.1f} ms, {1} : {2}'.format(
-                1000 * self.log[i]['proctime'], self.log[i]['type'],
+                1000 * self.log[i]['process_time'], self.log[i]['type'],
                 self.log[i]['id']) + ' ' + ERRORS[int(self.log[i]['id'])])

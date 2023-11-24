@@ -7,16 +7,20 @@ This module lets you control LTP's LightRig, natively in Python, using Thorlabs 
 (c) 2023 Light Trace Photonics Ltd.
 """
 
-import time, datetime, os, csv
-import threading
 from __future__ import print_function
+
+import csv
+import datetime
+import os
+import threading
+import time
 from collections import deque as fifo
 from pathlib import Path
 
-import qontrol
 import numpy as np
+import qontrol
 
-from errors import *
+from errors import ERRORS, fatal_errors
 from laser import Laser
 from powermeter import Powermeter
 
@@ -188,9 +192,9 @@ class LightRig(object):
 
 		return
 
-	def read_port_csv(self, port_dict_filename):
+	def read_port_csv(self, filename):
 		"""
-		Reads in CSV of devices to scan.
+		Reads in csv of devices to scan.
 		Requires headings:
 			id,	port_x_position_um,	port_y_position_um,	number_of_channels,
 			optimisation_channel, wavelength_start_nm, wavelength_stop_nm, steps
@@ -205,17 +209,16 @@ class LightRig(object):
 			SpecificException: Description of the exception that can be raised.
 		"""
 
-		port_dict_filename = Path(port_dict_filename)
+		filename = Path(filename)
 
 		# Sniff CSV delimiter
-		with open(port_dict_filename, 'r') as csvfile:
+		with open(filename, 'r') as csvfile:
 
 			dialect = csv.Sniffer().sniff(csvfile.read(1024))
 			delimiter = dialect.delimiter
 
 		# Open CSV and read values
-		reader = csv.DictReader(
-			open(port_dict_filename, 'r'), delimiter=delimiter)
+		reader = csv.DictReader(open(filename, 'r'), delimiter=delimiter)
 
 		for row in reader:
 			entry = {}
@@ -258,15 +261,10 @@ class LightRig(object):
 
 		return self.device_dict
 
-	def scan(
-		self,
-		local_optimisation_scan_range_um=10,
-		coupling_threshold_db=-30,
-		foldername=Path(os.path.realpath(__file__)).parent / 'Results'
-	):
+	def scan(self, foldername, optimise_range_um=10, coupling_threshold_db=-30):
 
 		self.coupling_threshold_dB = coupling_threshold_db
-		self.local_optimisation_scan_range_um = local_optimisation_scan_range_um
+		self.local_optimisation_scan_range_um = optimise_range_um
 
 		# Switch on laser
 		if self.laser is not None:
@@ -314,7 +312,7 @@ class LightRig(object):
 
 			moved = self._local_optimisation(
 				preferred_pm=int(self.opt_port[idx]),
-				scan_range_um=local_optimisation_scan_range_um)
+				scan_range_um=optimise_range_um)
 
 			# Check coupling threshold has been hit
 			p_check = self.pms[int(self.opt_port[idx]) - 1].measure()
@@ -333,17 +331,17 @@ class LightRig(object):
 			# If not hit, 3x scan range and run optimisation again before throwing a fatal error
 			if p_check < coupling_threshold_db:
 
-				self.log_append(type='info', id='-1',
-								params='Local optimisation failed')
+				self.log_append(
+					type='info', id='-1', params='Local optimisation failed')
 
 				# Move back
-				self.log_append(type='info', id='-1',
-								params='Moving back to original spot and attempting 3x the scan range')
+				self.log_append(
+					type='info', id='-1', params='Moving back to original spot and attempting 3x the scan range')
 				self._move(XYZ_um=(-moved[0], -moved[1], 0))
 
 				moved = self._local_optimisation(
 					preferred_pm=int(self.opt_port[idx]),
-					scan_range_um=local_optimisation_scan_range_um * 3)
+					scan_range_um=optimise_range_um * 3)
 
 				# Check coupling threshold has been hit
 				p_check = self.pms[int(self.opt_port[idx]) - 1].measure()
@@ -353,9 +351,13 @@ class LightRig(object):
 				elif self.pms[int(self.opt_port[idx]) - 1].unit == 'W':
 					p_check = mW_to_dB(p_check) * 1000
 
-				self.log_append(type='info', id='-1',
-								params='Max coupling into device {:} from 3x scan area = {:.2f} dBm'.format(
-									i, p_check))
+				log_msg = 'Max coupling into device {:} from 3x scan area = ' \
+						  '{:.2f} dBm'.format(i, p_check)
+				self.log_append(
+					type='info',
+					id='-1',
+					params= log_msg,
+			)
 
 			# If still not hit, assume device has poor coupling at 1550nm and run scan anyway and move on
 			if p_check < coupling_threshold_db:
@@ -423,7 +425,6 @@ class LightRig(object):
 		Run a local optimisation over X and Y
 		For each ustep, create grid and find maximum.
 		"""
-
 		# Calculate number of inital grid poitns -> scans grid_N x grid_N, spaced 3.175um apart, centered on the inital position
 		grid_N = int(np.ceil(scan_range_um / self.dudx[U_STEP]))
 

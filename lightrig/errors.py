@@ -2,7 +2,7 @@
 Error codes for lightrig control.
 """
 
-# Errors realting to the driver, as defined by Qontrol Systems
+# Errors relating to the driver, as defined by Qontrol Systems
 QONTROL_ERRORS = {
     0: 'Unknown error.',
     3: 'Power error.',
@@ -22,7 +22,8 @@ QONTROL_ERRORS = {
     31: 'Firmware trap.',
     90: 'Powered up.',
     1: 'Out-of-range error.',
-    20: 'Interlock triggered.'}
+    20: 'Interlock triggered.',
+}
 
 # Additional errors relating to automated scanning
 LTP_ERRORS = {
@@ -34,18 +35,20 @@ LTP_ERRORS = {
     115: 'Local optimisation scan range must be greater than 3.175 um',
     116: 'Not enough powermeter connected to complete scan',
     117: 'Laser connection failed',
-    118: 'Laser throwing error during turn on'}
+    118: 'Laser throwing error during turn on',
+}
 # ...}
 
 LTP_WARNINGS = {
     401: 'Ensure you are couple into device 1 as defined in line 1 of your '
          'device dictionary.',
-    402: 'Ensure M2 channel 0 = X, 1 = Y, Z = 2'}
+    402: 'Ensure M2 channel 0 = X, 1 = Y, Z = 2',
+}
 # ...}
 
 THOR_ERRORS = {
     201: 'Powermeter not found, connection error!',
-    202: 'Specified unit not recognised'
+    202: 'Specified unit not recognised',
 }
 
 ERRORS = {**QONTROL_ERRORS, **LTP_ERRORS, **LTP_WARNINGS, **THOR_ERRORS}

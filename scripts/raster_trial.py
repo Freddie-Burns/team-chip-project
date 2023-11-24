@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     # Run scan with additional settings
     device.scan(
-        local_optimisation_scan_range_um=local_optimisation_scan_range_um,
+        optimise_range_um=local_optimisation_scan_range_um,
         coupling_threshold_db=coupling_threshold_dB,
         foldername=foldername
     )
