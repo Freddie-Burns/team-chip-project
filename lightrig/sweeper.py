@@ -22,10 +22,16 @@ class Sweeper:
         self.laser = laser
         self.powermeter = powermeter
 
-    def scan(self, wavelengths, save_path, device_name):
+    def sweep(self, save_path, device_name, start=1540, end=1570, step=0.1):
         """
-        wavelengths:    numpy.array 1d
-                        Frequencies laser will sweep.
+        start:          int, float
+                        Initial wavelength of sweep in nm.
+
+        end:            int, float
+                        Final wavelength of sweep in nm.
+
+        step:           int, float
+                        Increment between each wavelength in sweep in nm.
 
         save_path:      pathlib.Path
                         Directory to save csv data file.
@@ -38,6 +44,11 @@ class Sweeper:
             try: self.laser.switch_on()
             except: raise Exception("No laser connection")
 
+        # Number of wavelengths in the sweep
+        sweep_size = int((end - start) / step) + 1
+
+        # Initialise arrays to hold data
+        wavelengths = np.linspace(start, end, sweep_size)
         transmission = np.zeros(wavelengths.shape)
 
         # Scan wavelengths and collect data
@@ -47,7 +58,7 @@ class Sweeper:
             time.sleep(0.2) # time for laser to adjust and stabilise
             transmission[i] = self.powermeter.measure()
 
-        # Write data to file
+        # Combine wavelengths and power into 2 x n array then save.
         data = np.stack((wavelengths, transmission), axis=1)
         file_path = save_path / f"{device_name}_{timestamp()}.csv"
         np.savetxt(file_path, data, delimiter=',')

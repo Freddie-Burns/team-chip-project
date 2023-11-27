@@ -1,7 +1,7 @@
 import pyvisa
 
 
-class Laser():
+class Laser:
 	"""
 	Class to control OSICS laser.
 	"""
