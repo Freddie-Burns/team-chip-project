@@ -18,7 +18,7 @@ if __name__ == '__main__':
     laser_port_name = 7
     laser_channel = 1
 
-    local_optimisation_scan_range_um = 4
+    local_optimisation_scan_range_um = 5
     coupling_threshold_dB = -30
     foldername = Path("sweep_data")
 
