@@ -25,19 +25,17 @@ class Powermeter:
                     resource, read_termination='\n')
                 print(f"Powermeter is {resource}")
 
-    def measure(self, channel=1):
-        self.powermeter.query('READ?')
-        result_w = float(self.powermeter.query('read?;*OPC?', delay=self.read_timeout).split(";")[0], )
-        # result_w = float(self.instr.query('MEASURE:POWER?'))
-        if math.isnan(result_w):
-            return 10 * math.log(result_w * 1000, 10) # to dBm
-        else:
-            return float('nan')
+    def measure(self):
+        """
+        Read power, convert Watts to dBm, return value.
+        """
+        result_w = float(self.powermeter.query('measure:power?'))
+        return 10 * math.log(result_w * 1000, 10) # to dBm
 
     def set_wavelength(self, wl_nm):
-        self.laser.write('sense:correction:wav {0}'.format(wl_nm))
-        time.sleep(0.005)
+        self.powermeter.write(f"sense:correction:wav {wl_nm}")
+        time.sleep(0.01)
 
     def get_wavelength(self):
-        r = float(self.laser.query('sense:correction:wav?')) / 1e-9
+        r = float(self.powermeter.query('sense:correction:wav?')) / 1e-9
         return r

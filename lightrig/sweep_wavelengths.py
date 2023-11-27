@@ -5,9 +5,9 @@ Saves data as a csv file in specified directory.
 
 from pathlib import Path
 
-from lightrig.laser import Laser
-from lightrig.powermeter import Powermeter
-from lightrig.sweeper import Sweeper
+from laser import Laser
+from powermeter import Powermeter
+from sweeper import Sweeper
 
 
 # Wavelength sweep parameters

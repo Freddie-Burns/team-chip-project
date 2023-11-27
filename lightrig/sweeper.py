@@ -60,5 +60,5 @@ class Sweeper:
 
         # Combine wavelengths and power into 2 x n array then save.
         data = np.stack((wavelengths, transmission), axis=1)
-        file_path = save_path / f"{device_name}_{timestamp()}.csv"
+        file_path = save_path / f"{device_name} {timestamp()}.csv"
         np.savetxt(file_path, data, delimiter=',')
