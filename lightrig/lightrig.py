@@ -322,7 +322,7 @@ class LightRig(object):
 			# Local optimisation
 			self.log_append(type='info', id='-1', params='Begining local optimisation')
 
-			moved = self._local_optimisation(preferred_pm = int(self.opt_port[idx]), scan_range_um = local_optimisation_scan_range_um)
+			# moved = self._local_optimisation(preferred_pm = int(self.opt_port[idx]), scan_range_um = local_optimisation_scan_range_um)
 
 			# Check coupling threshold has been hit
 			p_check = self.pms[int(self.opt_port[idx])-1].measure()
