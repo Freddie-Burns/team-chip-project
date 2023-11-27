@@ -11,7 +11,7 @@ import pyvisa
 from lightrig.errors import ERRORS
 
 
-class Powermeter(object):
+class Powermeter:
     """
 	Class which handles Thorlabs powermeter setup, user interfacing, and data processing.
 
@@ -27,12 +27,8 @@ class Powermeter(object):
 	log_to_stdout = True       Copy new log entries to stdout
 	"""
     def __init__(self, *args, **kwargs):
-        """
-		Initialiser.
-		"""
-
         # Defaults
-        self.model = None  # Device model, supported 'N7747A; PM100D; PM100USB'
+        self.model = "PM100D"
         self.serial = None  # Name of serial port, eg 'COM1' or '/dev/tty1'
         self.unit = 'dBm'  # {'W', 'mW', 'dBm'}
         self.wavelength = 1550  # Wavelength in nm
@@ -75,48 +71,13 @@ class Powermeter(object):
             self.log_append(type='err', id=201)
 
     def measure(self, channel=1):
-        if os.name == 'posix':
-            self.instr.query('READ?')
-            result_w = float(
-                self.instr.query(
-                    'read?;*OPC?',
-                    delay=self.read_timeout).split(";")[0],
-            )
-
-            if math.isnan(result_w):
-                result_w = 0.
-            if self.unit == 'W':
-                return result_w
-            elif self.unit == 'mW':
-                return result_w * 1000
-            elif self.unit == 'dBm':
-                return (10 * math.log(result_w * 1000,
-                                      10)) if result_w > 0 else float('nan')
-
+        self.instr.query('READ?')
+        result_w = float(self.instr.query('read?;*OPC?',delay=self.read_timeout).split(";")[0],)
+        # result_w = float(self.instr.query('MEASURE:POWER?'))
+        if math.isnan(result_w):
+            return 10 * math.log(result_w * 1000, 10) # to dBm
         else:
-            if (self.model == 'PM100D' or self.model == 'PM100USB'):
-                result_w = float(self.instr.query('MEASure:POWer?'))
-            elif self.model == 'N7747A':
-                if channel not in [1, 2]:
-                    raise AttributeError(
-                        'Channel number for model {0} must be in [1,2]. Specified channel {1} is invalid.'.format(
-                            self.model, channel))
-                result_w = float(
-                    self.instr.query('read{ch}:pow?'.format(ch=channel),
-                                     delay=self.read_timeout))
-            else:
-                raise AttributeError('Unknown model "{0}".'.format(self.model))
-
-            if math.isnan(result_w):
-                result_w = 0.
-
-            if self.unit == 'W':
-                return result_w
-            elif self.unit == 'mW':
-                return result_w * 1000
-            elif self.unit == 'dBm':
-                return (10 * math.log(result_w * 1000,
-                                      10)) if result_w > 0 else float('nan')
+            return float('nan')
 
     def set_wavelength(self, wl_nm):
         self.laser.write('sense:correction:wav {0}'.format(wl_nm))
@@ -125,64 +86,3 @@ class Powermeter(object):
     def get_wavelength(self):
         r = float(self.laser.query('sense:correction:wav?')) / 1e-9
         return r
-
-    def set_averages(self, n_averages):
-        self.laser.write('sens:aver {0}'.format(n_averages))
-        time.sleep(0.005)
-
-    def get_statistics(self, n_counts=100, channel=1):
-        data = []
-        for _ in range(n_counts):
-            power = self.measure(channel=channel)
-            if not math.isnan(power):
-                data.append(power)
-            else:
-                return {"mean": math.nan, "stdev": math.nan, "data": []}
-            time.sleep(0.05)
-        if data:
-            mean = sum(data) / len(data)
-            stats = {
-                "min": min(data),
-                "max": max(data),
-                "mean": mean,
-                "stdev": np.std(np.array(data), axis=0),
-                "data": data
-            }
-            return stats
-        else:
-            # only works in dBm for now set to noise floor if NaN
-            stats = {
-                "min": -120.0,
-                "max": -120.0,
-                "mean": -120.0,
-                "stdev": 0.0,
-                "data": []
-            }
-            return stats
-
-    def log_append(self, type='err', id=''):
-        """
-		Log an event; add both a calendar- and process-timestamp.
-		"""
-        # Append to log fifo
-        self.log.append({'timestamp': time.asctime(),
-                         'process_time': round(time.time() - self.init_time, 3),
-                         'type': type, 'id': int(id)})
-        # Send to handler function (if defined)
-        if self.log_handler is not None:
-            self.log_handler(self.log[-1])
-        # Send to stdout (if requested)
-        if self.log_to_stdout:
-            self.print_log(n=1)
-
-    def print_log(self, n=None):
-        """
-		Print the n last log entries. If n == None, print all log entries.
-		"""
-        if n is None:
-            n = len(self.log)
-
-        for i in range(-n, 0):
-            print('@ {0: 8.1f} ms, {1} : {2}'.format(
-                1000 * self.log[i]['process_time'], self.log[i]['type'],
-                self.log[i]['id']) + ' ' + ERRORS[int(self.log[i]['id'])])

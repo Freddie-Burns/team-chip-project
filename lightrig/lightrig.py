@@ -388,7 +388,7 @@ class LightRig(object):
 				if self.laser is None:
 					pass
 				else:
-					self.laser.set_laser_wavelength(w)
+					self.laser.set_wavelength(w)
 					self.log_append(type='info', id='-1',
 									params='Laser wavelength set to initial value of {} nm'.format(
 										w))
@@ -403,7 +403,7 @@ class LightRig(object):
 
 				device_data = np.vstack((device_data, p))
 
-			self.laser.set_laser_wavelength('1550')
+			self.laser.set_wavelength('1550')
 			self.log_append(type='info', id='-1',
 							params='Laser wavelength set to initial value of {} nm'.format(
 								'1550'))
@@ -662,6 +662,10 @@ class LightRig(object):
 
 
 class ManualCouple:
+	"""
+	Context manager which returns VGA to original maunual coupling position
+	on exit.
+	"""
 	def __init__(self, motor: qontrol.MXMotor):
 		self.motor = motor
 
