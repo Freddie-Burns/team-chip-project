@@ -17,4 +17,3 @@ powermeter = rm.open_resource('USB0::4883::32888::P0001012::0::INSTR')
 powermeter.write_termination = '\r'
 powermeter.read_termination = '\r'
 print(powermeter.query('*IDN?'))
-print(powermeter.query('*IDN?'))
