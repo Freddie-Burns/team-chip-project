@@ -6,6 +6,7 @@ corresponding power output.
 import datetime
 import time
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 from laser import Laser
@@ -51,12 +52,24 @@ class Sweeper:
         wavelengths = np.linspace(start, end, sweep_size)
         transmission = np.zeros(wavelengths.shape)
 
+        # Create plot
+        figure, ax = plt.subplots(figsize=(10, 8))
+        line1, = ax.plot(wavelengths, transmission)
+        plt.title("Transmission Power", fontsize=20)
+        plt.xlabel("wavelength / nm")
+        plt.ylabel("transmission / uW")
+
         # Scan wavelengths and collect data
         for i, wavelength in enumerate(wavelengths):
             self.laser.set_wavelength(wavelength)
-            # self.powermeter.set_wavelength(wavelength)
             time.sleep(0.2) # time for laser to adjust and stabilise
             transmission[i] = self.powermeter.measure()
+
+            # Update graph
+            if i % 10 == 0:
+                line1.set_ydata(transmission)
+                figure.canvas.draw()
+                figure.canvas.flush_events()
 
         # Combine wavelengths and power into 2 x n array then save.
         data = np.stack((wavelengths, transmission), axis=1)
