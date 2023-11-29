@@ -54,7 +54,7 @@ class Sweeper:
         # Scan wavelengths and collect data
         for i, wavelength in enumerate(wavelengths):
             self.laser.set_wavelength(wavelength)
-            self.powermeter.set_wavelength(wavelength)
+            # self.powermeter.set_wavelength(wavelength)
             time.sleep(0.2) # time for laser to adjust and stabilise
             transmission[i] = self.powermeter.measure()
 
