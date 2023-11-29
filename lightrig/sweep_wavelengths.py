@@ -11,7 +11,7 @@ from sweeper import Sweeper
 
 
 # Wavelength sweep parameters
-device_name = "ring-09"
+device_name = "ring-13"
 start_wavelength = 1540
 end_wavelength = 1560
 wavelength_step = 0.02
