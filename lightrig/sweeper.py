@@ -6,6 +6,7 @@ corresponding power output.
 import datetime
 import time
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 from laser import Laser
@@ -62,3 +63,6 @@ class Sweeper:
         data = np.stack((wavelengths, transmission), axis=1)
         file_path = save_path / f"{device_name} {timestamp()}.csv"
         np.savetxt(file_path, data, delimiter=',')
+
+        plt.plot(wavelengths, transmission)
+        plt.show()
