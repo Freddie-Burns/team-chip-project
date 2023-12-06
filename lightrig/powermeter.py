@@ -1,6 +1,7 @@
 import math
 import time
 
+import numpy as np
 import pyvisa
 
 
@@ -29,8 +30,11 @@ class Powermeter:
         """
         Read power, convert Watts to dBm, return value.
         """
-        result_w = float(self.powermeter.query('measure:power?'))
-        return 10 * math.log(result_w * 1000, 10) # to dBm
+        try:
+            result_w = float(self.powermeter.query('measure:power?'))
+            return 10 * math.log(result_w * 1000, 10) # to dBm
+        except:
+            return np.NaN
 
     def set_wavelength(self, wl_nm):
         self.powermeter.write(f"sense:correction:wav {wl_nm}")
