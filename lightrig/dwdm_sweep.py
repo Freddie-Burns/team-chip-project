@@ -5,9 +5,9 @@ Saves swabian as a csv file in specified directory.
 
 from pathlib import Path
 
-from lightrig import Laser
-from lightrig import Powermeter
-from lightrig import Sweeper
+from instruments import Laser
+from instruments import Powermeter
+from instruments import Sweeper
 
 
 # Wavelength sweep parameters
@@ -21,7 +21,7 @@ wavelength_step = 0.1
 powermeter_serial = 'P0001012'
 laser_com_port = 7
 laser_channel = 1
-save_path = Path("../data/dwdm_sweep")
+save_path = Path("../data/dwdm")
 
 # Connect to instruments
 laser = Laser(COM_port=laser_com_port, channel=laser_channel)

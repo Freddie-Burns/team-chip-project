@@ -1,13 +1,13 @@
 """
-Script to run wavelength sweep once manually coupled.
-Saves swabian as a csv file in specified directory.
+Script to run wavelength sweep once manually coupled to device.
+Saves data as a csv file in specified directory.
 """
 
 from pathlib import Path
 
-from lightrig.instruments.laser import Laser
-from lightrig.instruments.powermeter import Powermeter
-from lightrig.instruments.sweeper import Sweeper
+from instruments import Laser
+from instruments import Powermeter
+from instruments import Sweeper
 
 
 # Wavelength sweep parameters
