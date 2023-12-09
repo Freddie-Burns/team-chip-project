@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 src_dir = Path(__file__).parents[1]
-sweep_dir = src_dir / "sweep_data"
+sweep_dir = src_dir / "resonance"
 file_path_1 = sweep_dir / "ring-04-dwdm 2023-12-04 14-58-11.csv"
 file_path_2 = sweep_dir / "ring-04-dwdm 2023-12-04 15-00-33.csv"
 

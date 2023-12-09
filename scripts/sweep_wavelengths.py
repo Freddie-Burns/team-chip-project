@@ -5,9 +5,9 @@ Saves data as a csv file in specified directory.
 
 from pathlib import Path
 
-from laser import Laser
-from powermeter import Powermeter
-from sweeper import Sweeper
+from lightrig.laser import Laser
+from lightrig.powermeter import Powermeter
+from lightrig.sweeper import Sweeper
 
 
 # Wavelength sweep parameters
@@ -20,7 +20,7 @@ wavelength_step = 0.01
 powermeter_serial = 'P0001012'
 laser_com_port = 7
 laser_channel = 1
-save_path = Path("../sweep_data")
+save_path = Path("../data/resonance")
 
 # Connect to instruments
 laser = Laser(COM_port=laser_com_port, channel=laser_channel)
