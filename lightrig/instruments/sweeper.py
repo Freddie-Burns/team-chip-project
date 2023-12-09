@@ -57,9 +57,6 @@ class Sweeper:
         plt.xlim(wavelengths[0], wavelengths[-1])
         plt.show(block=False)
         ax.plot(wavelengths, transmission)
-        plt.title("Transmission Power", fontsize=20)
-        plt.xlabel("wavelength / nm")
-        plt.ylabel("transmission / uW")
 
         # Scan wavelengths and collect data
         for i, wavelength in enumerate(wavelengths):
@@ -79,4 +76,7 @@ class Sweeper:
         np.savetxt(file_path, data, delimiter=',')
 
         # plt.plot(wavelengths, transmission)
+        plt.title("Transmission Power", fontsize=20)
+        plt.xlabel("wavelength / nm")
+        plt.ylabel("transmission / dBm")
         plt.show()

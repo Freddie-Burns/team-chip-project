@@ -41,5 +41,8 @@ for i, wavelength in enumerate(PREPARED_DATA["wavelength"]):
     ax.clear()
     ax.plot(wavelengths, transmission)
     plt.xlim(wavelengths[0], wavelengths[-1])
+    plt.title("Transmission Power", fontsize=20)
+    plt.xlabel("wavelength / nm")
+    plt.ylabel("transmission / dBm")
 
 plt.show()
