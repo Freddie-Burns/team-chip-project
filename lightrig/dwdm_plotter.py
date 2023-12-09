@@ -4,17 +4,32 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
-src_dir = Path(__file__).parents[1]
-dwdm_dir = src_dir / "dwdm_sweep"
 
-sweep_data = []
+DWDM_CHANNELS = range(30, 40)
+DWDM_DIR = Path("../data/dwdm")
+Y_LIM = (-20, 0)
 
-for file in os.listdir(dwdm_dir):
-    sweep_data.append(pd.read_csv(dwdm_dir / file, header=None, names=["wavelength", "transmission"]))
+ax = plt.subplot()
+plt.ylim(Y_LIM)
 
-sweep_data_0 = sweep_data[0]
-ax = sweep_data_0.plot(kind='line', x="wavelength", y="transmission", ylim=(-20, 0))
-for datum in sweep_data[1:]:
-    datum.plot(kind='line', x="wavelength", y="transmission", ax=ax, ylim=(-20, 0))
+dwdm_filenames = []
+channel_number = None
+
+channels = pd.read_csv(DWDM_DIR / "channel wavelength table.csv")
+plt.vlines(channels["Wavelength"], *Y_LIM, 'k', ':')
+
+for dwdm_filename in os.listdir(DWDM_DIR):
+    try: channel_number = int(dwdm_filename[8:10])
+    except ValueError: pass
+
+    if channel_number in DWDM_CHANNELS:
+        dwdm_filenames.append(dwdm_filename)
+
+dwdm_data = []
+for filename in dwdm_filenames:
+    file_path = DWDM_DIR / filename
+    datum = pd.read_csv(
+        file_path, header=None, names=["wavelength", "transmission"])
+    datum.plot(kind='line', x="wavelength", y="transmission", ax=ax)
 
 plt.show()
