@@ -1,12 +1,8 @@
-# Light Trace Photonics
+# QECDT 2023 Chip Team 2
 
-See [our website](https://www.ltphotonics.co.uk/) for more details (coming soon!)
+A Python project for interfacing with **Osics Lasers**, **Thorlabs Powermeters**, and **Swabian Time Taggers**. The project contains code to find resonance dips in cavity photon sources, itentify and compare pass-bands in WDM filters, and collect coincidence data from the Bristol WET labs Swabian time correlators.
 
-A Python Library for interfacing with **Light Trace Photonics** hardware. This module lets you control LTP's automated chip testing rig. It provides 
-a main LightRig class which reads in device & measurement information, performs scans, and save data for the user. It also provides two additional classes, one for taking measurements with Thorlabs photodiodes and one for controlling an Osics Mainframe laser. Note, these can be modififed to different laser and phototdiode interfacing if required.
-
-Get in touch with us at
-contact@ltphotonics.co.uk.
+It provides a main LightRig class which reads in device & measurement information, performs scans, and save data for the user. It also provides two additional classes, one for taking measurements with Thorlabs photodiodes and one for controlling an Osics Mainframe laser. Note, these can be modififed to different laser and phototdiode interfacing if required.
 
 ## Table of contents
 - Installation
@@ -21,15 +17,7 @@ Requirements:
 - A Python 3.6 or greater interpreter.
 
 Dependencies
-- `libusb` is required for the backend of pyusb.
-- `pyvisa-py` is required to connect to Thorlabs photodiodes.
-- `pyusb` is required to connect to Thorlabs photodiodes.
-- `pyserial` is required to connect to an Oscis Mainframe laser.
-- `qontrol` to interfacing with the required Qontrol M2 driver boards (See [Qontrol's website](https://qontrol.co.uk/) for more details).
-- `numpy` is required to perform calculations.
-- `tkinter` is required to run the GUI.
-- `gdspy` is required to run the GUI.
-- `Pillow` is required to run the GUI.
+Listed in *requirements.txt*
 
 Note, the order in which libusb, pyvisa-py and pyusb are install is important for correct configuration. If you are struggling to connect to the Thorlabs powermeter then type `pyvisa-info` into terminal and check the USB backend is working correctly.
 
