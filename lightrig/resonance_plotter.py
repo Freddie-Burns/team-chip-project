@@ -73,7 +73,7 @@ def plot_transmission_data(ax):
             x="wavelength",
             y="transmission",
             ax=ax,
-            label=file[:-3],  # Remove file type from label
+            label=file[:-4],  # Remove .csv from label
         )
 
 

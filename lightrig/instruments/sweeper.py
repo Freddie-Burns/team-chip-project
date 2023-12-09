@@ -41,40 +41,42 @@ class Sweeper:
                         Name of tested device for file name.
         """
         # Switch on laser
-        if self.laser is not None:
-            try: self.laser.switch_on()
-            except: raise Exception("No laser connection")
+        try: self.laser.switch_on()
+        except: raise Exception("No laser connection")
 
         # Number of wavelengths in the sweep
         sweep_size = int((end - start) / step) + 1
 
-        # Initialise arrays to hold swabian
+        # Initialise arrays to hold data
         wavelengths = np.linspace(start, end, sweep_size)
-        transmission = np.zeros(wavelengths.shape)
+        transmission = np.empty(wavelengths.shape)
+        transmission[:] = np.nan
 
         # Create plot
-        figure, ax = plt.subplots(figsize=(10, 8))
-        line1, = ax.plot(wavelengths, transmission)
+        ax = plt.subplot()
+        plt.xlim(wavelengths[0], wavelengths[-1])
+        plt.show(block=False)
+        ax.plot(wavelengths, transmission)
         plt.title("Transmission Power", fontsize=20)
         plt.xlabel("wavelength / nm")
         plt.ylabel("transmission / uW")
 
-        # Scan wavelengths and collect swabian
+        # Scan wavelengths and collect data
         for i, wavelength in enumerate(wavelengths):
             self.laser.set_wavelength(wavelength)
             time.sleep(0.2) # time for laser to adjust and stabilise
             transmission[i] = self.powermeter.measure()
 
             # Update graph
-            if i % 10 == 0:
-                line1.set_ydata(transmission)
-                figure.canvas.draw()
-                figure.canvas.flush_events()
+            plt.pause(0.01)
+            ax.clear()
+            ax.plot(wavelengths, transmission)
+            plt.xlim(wavelengths[0], wavelengths[-1])
 
         # Combine wavelengths and power into 2 x n array then save.
         data = np.stack((wavelengths, transmission), axis=1)
         file_path = save_path / f"{device_name} {timestamp()}.csv"
         np.savetxt(file_path, data, delimiter=',')
 
-        plt.plot(wavelengths, transmission)
+        # plt.plot(wavelengths, transmission)
         plt.show()
