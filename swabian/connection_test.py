@@ -49,7 +49,7 @@ with client.createProxy(host=swabian_host, port=swabian_port) as TT:
         # ax.set_xlim(-325, -225)
 
     filename = f"{device} binwidth_{binwidth}ps trigger_{trigger}V {timestamp()}.csv"
-    save_path = Path("./data")
+    save_path = Path("../data/swabian")
     file_path = save_path / filename
     data = np.stack((x, y), axis=1)
     np.savetxt(file_path, data, delimiter=',')

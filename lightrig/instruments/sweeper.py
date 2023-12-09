@@ -14,7 +14,7 @@ from powermeter import Powermeter
 
 
 def timestamp():
-    """Time stamping for data save"""
+    """Time stamping for swabian save"""
     return datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
 
 
@@ -35,7 +35,7 @@ class Sweeper:
                         Increment between each wavelength in sweep in nm.
 
         save_path:      pathlib.Path
-                        Directory to save csv data file.
+                        Directory to save csv swabian file.
 
         device_name:    string
                         Name of tested device for file name.
@@ -48,7 +48,7 @@ class Sweeper:
         # Number of wavelengths in the sweep
         sweep_size = int((end - start) / step) + 1
 
-        # Initialise arrays to hold data
+        # Initialise arrays to hold swabian
         wavelengths = np.linspace(start, end, sweep_size)
         transmission = np.zeros(wavelengths.shape)
 
@@ -59,7 +59,7 @@ class Sweeper:
         plt.xlabel("wavelength / nm")
         plt.ylabel("transmission / uW")
 
-        # Scan wavelengths and collect data
+        # Scan wavelengths and collect swabian
         for i, wavelength in enumerate(wavelengths):
             self.laser.set_wavelength(wavelength)
             time.sleep(0.2) # time for laser to adjust and stabilise

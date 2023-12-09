@@ -1,13 +1,13 @@
 """
 Script to run wavelength sweep once manually coupled.
-Saves data as a csv file in specified directory.
+Saves swabian as a csv file in specified directory.
 """
 
 from pathlib import Path
 
-from lightrig.laser import Laser
-from lightrig.powermeter import Powermeter
-from lightrig.sweeper import Sweeper
+from lightrig.instruments.laser import Laser
+from lightrig.instruments.powermeter import Powermeter
+from lightrig.instruments.sweeper import Sweeper
 
 
 def run():

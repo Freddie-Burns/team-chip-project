@@ -34,17 +34,17 @@ def user_confirm_exit(prompt="Continue?"):
 
 def get_save_dir(measurement_time=datetime.now()):
     current_dir = pathlib.Path(__file__).parent.resolve()
-    save_dir = current_dir.parent / 'data' / measurement_time.strftime('%Y-%m-%d')
+    save_dir = current_dir.parent / 'swabian' / measurement_time.strftime('%Y-%m-%d')
     save_dir.mkdir(parents=True, exist_ok=True)
     return save_dir
 
 
 def get_latest_save_dir():
     current_dir = pathlib.Path(__file__).parent.resolve()
-    data_dir = current_dir.parent / 'data'
+    data_dir = current_dir.parent / 'swabian'
     save_dir = sorted(data_dir.glob('*-*-*'), reverse=True)[0]
     return save_dir
 
 def timestamp():
-    """Time stamping for data save"""
+    """Time stamping for swabian save"""
     return datetime.now().strftime('%Y-%m-%d %H-%M-%S')
