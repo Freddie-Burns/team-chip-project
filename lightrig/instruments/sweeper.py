@@ -5,12 +5,17 @@ corresponding power output.
 
 import datetime
 import time
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 from laser import Laser
 from powermeter import Powermeter
+
+
+DWDM_DIR = Path(".../data/dwdm")
 
 
 def timestamp():
@@ -52,6 +57,15 @@ class Sweeper:
         transmission = np.empty(wavelengths.shape)
         transmission[:] = np.nan
 
+        # Drop DWDM channels outside plotting range
+        all_channels = pd.read_csv(DWDM_DIR / "channel wavelength table.csv")
+        visible_channels = []
+        for i in all_channels.index:
+            channel = all_channels.iloc[i]["channel"]
+            centre = all_channels.iloc[i]["wavelength"]
+            if (wavelengths[0] < centre) and (centre < wavelengths[-1]):
+                visible_channels.append((channel, centre))
+
         # Create plot
         ax = plt.subplot()
         plt.xlim(wavelengths[0], wavelengths[-1])
@@ -61,16 +75,23 @@ class Sweeper:
         # Scan wavelengths and collect data
         for i, wavelength in enumerate(wavelengths):
             self.laser.set_wavelength(wavelength)
-            time.sleep(0.2) # time for laser to adjust and stabilise
+            time.sleep(0.2)  # time for laser to adjust and stabilise
             transmission[i] = self.powermeter.measure()
 
             # Update graph
             plt.pause(0.01)
             ax.clear()
-            ax.plot(wavelengths, transmission)
             plt.xlim(wavelengths[0], wavelengths[-1])
+            ax.plot(wavelengths, transmission)
+            y_lim = ax.get_ylim()
 
-        # Combine wavelengths and power into 2 x n array then save.
+            for channel, channel_wavelength in visible_channels:
+                ax.vlines(channel_wavelength, *y_lim, 'k', ':')
+                position = (channel_wavelength + 0.05, y_lim[0])
+                label = f"{int(channel)}"
+                ax.text(*position, label, rotation=90)
+
+        # Combine wavelengths and power into 2 x n array then save
         data = np.stack((wavelengths, transmission), axis=1)
         file_path = save_path / f"{device_name} {timestamp()}.csv"
         np.savetxt(file_path, data, delimiter=',')
