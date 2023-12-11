@@ -27,7 +27,7 @@ transmission = np.empty(wavelengths.shape)
 transmission[:] = np.nan
 
 # Drop DWDM channels outside plotting range
-all_channels = pd.read_csv(DWDM_DIR / "channel wavelength table.csv")
+all_channels = pd.read_csv(DWDM_DIR / "channel_wavelength_table.csv")
 plot_channels = []
 for i in all_channels.index:
     channel = all_channels.iloc[i]["channel"]

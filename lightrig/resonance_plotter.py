@@ -36,7 +36,7 @@ def main():
 
 def plot_channel_centers(ax):
     """Plot all DWDM channel central wavelengths as dotted lines."""
-    channels = pd.read_csv(DWDM_DIR / "channel wavelength table.csv")
+    channels = pd.read_csv(DWDM_DIR / "channel_wavelength_table.csv")
     for i in channels.index:
         wavelength = channels.iloc[i]["wavelength"]
         channel = channels.iloc[i]["channel"]

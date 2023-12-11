@@ -15,7 +15,7 @@ plt.ylim(Y_LIM)
 dwdm_filenames = []
 channel_number = None
 
-channels = pd.read_csv(DWDM_DIR / "channel wavelength table.csv")
+channels = pd.read_csv(DWDM_DIR / "channel_wavelength_table.csv")
 plt.vlines(channels["Wavelength"], *Y_LIM, 'k', ':')
 
 for dwdm_filename in os.listdir(DWDM_DIR):

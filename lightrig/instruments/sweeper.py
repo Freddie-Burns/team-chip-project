@@ -15,7 +15,7 @@ from laser import Laser
 from powermeter import Powermeter
 
 
-DWDM_DIR = Path(".../data/dwdm")
+DWDM_FILE = Path(".../data/dwdm") / "channel_wavelength_table.csv"
 
 
 def timestamp():
@@ -58,7 +58,7 @@ class Sweeper:
         transmission[:] = np.nan
 
         # Drop DWDM channels outside plotting range
-        all_channels = pd.read_csv(DWDM_DIR / "channel wavelength table.csv")
+        all_channels = pd.read_csv(DWDM_FILE)
         visible_channels = []
         for i in all_channels.index:
             channel = all_channels.iloc[i]["channel"]
