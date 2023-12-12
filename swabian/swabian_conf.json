@@ -1,0 +1,783 @@
+{
+    "channel number scheme": 2,
+    "configure version": 1,
+    "current time": "2023-12-12 10:11:38 +0000",
+    "devices": [
+        {
+            "PCB version": "1.5 (1)",
+            "model": "Time Tagger Ultra",
+            "serial": "2023000TM0"
+        }
+    ],
+    "firmware version": "TT-Ultra, FW 5, TS 2021-05-31 14:53:34, OK 1.31",
+    "hardware buffer size": 67108864,
+    "inputs": [
+        {
+            "channel": [
+                1,
+                -1
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                537,
+                537
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                2,
+                -2
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1171,
+                1171
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                3,
+                -3
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1422,
+                1422
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                4,
+                -4
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                323,
+                323
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                5,
+                -5
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                26200,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                855,
+                855
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.08999008163576727
+        },
+        {
+            "channel": [
+                6,
+                -6
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                616,
+                616
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.08999008163576727
+        },
+        {
+            "channel": [
+                7,
+                -7
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                821,
+                821
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                8,
+                -8
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1322,
+                1322
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.21000228885328465
+        },
+        {
+            "channel": [
+                9,
+                -9
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                183,
+                183
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                10,
+                -10
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1633,
+                1633
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                11,
+                -11
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                -30400,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1392,
+                1392
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.20000762951094853
+        },
+        {
+            "channel": [
+                12,
+                -12
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1744,
+                1744
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                13,
+                -13
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                567,
+                567
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                14,
+                -14
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1372,
+                1372
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                15,
+                -15
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1374,
+                1374
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                16,
+                -16
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1338,
+                1338
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                17,
+                -17
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                1384,
+                1384
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        },
+        {
+            "channel": [
+                18,
+                -18
+            ],
+            "conditional filter filtered": [
+                false,
+                false
+            ],
+            "conditional filter triggers": [
+                false,
+                false
+            ],
+            "deadtime": [
+                2000,
+                2000
+            ],
+            "delay hardware": [
+                0,
+                0
+            ],
+            "delay software": [
+                0,
+                0
+            ],
+            "event divider": [
+                0,
+                0
+            ],
+            "hardware delay compensation": [
+                896,
+                896
+            ],
+            "input mux": 0,
+            "normalization": [
+                true,
+                true
+            ],
+            "resolution": "Standard",
+            "resolution rms": 9.0,
+            "trigger level": 0.5
+        }
+    ],
+    "led bitmask": 0,
+    "registered channels": [
+        8,
+        11
+    ],
+    "resolution": "Standard",
+    "serial": "2023000TM0",
+    "software version": "2.9.0",
+    "stream block size events": 131072,
+    "stream block size latency": 20,
+    "test signal divider": 63
+}

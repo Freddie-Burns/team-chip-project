@@ -11,11 +11,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from laser import Laser
-from powermeter import Powermeter
+from .laser import Laser
+from .powermeter import Powermeter
 
 
-DWDM_FILE = Path(".../data/dwdm") / "channel_wavelength_table.csv"
+DWDM_FILE = Path("../data/dwdm") / "channel_wavelength_table.csv"
 
 
 def timestamp():

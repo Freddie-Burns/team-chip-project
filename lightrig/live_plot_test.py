@@ -6,8 +6,7 @@ import pandas as pd
 
 
 # Collect data to plot
-DATA_PATH = r"C:\Users\fredd\PycharmProjects\team-chip-project\data" \
-            r"\resonance\ring-17 2023-12-01 10-49-28.csv"
+DATA_PATH = Path("../data/resonance") / "ring-17 2023-12-01 10-49-28.csv"
 DWDM_DIR = Path("../data/dwdm")
 PREPARED_DATA = pd.read_csv(
     DATA_PATH,

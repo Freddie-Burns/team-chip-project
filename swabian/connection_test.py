@@ -1,13 +1,13 @@
 from pathlib import Path
 from TimeTaggerRPC import client
-from swabian_param import swabian_host, swabian_port, swabian_ch1, swabian_ch2
+from parameters import swabian_host, swabian_port, swabian_ch1, swabian_ch2
 import json
 import matplotlib.pyplot as plt
 import numpy as np
 
 from util import timestamp
 
-device = "ring-20"
+device = "ring-24"
 binwidth = 1000
 n_bins = 100
 trigger = 0.07

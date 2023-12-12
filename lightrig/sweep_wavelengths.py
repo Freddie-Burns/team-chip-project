@@ -11,10 +11,10 @@ from instruments import Sweeper
 
 
 # Wavelength sweep parameters
-device_name = "ring-04-dwdm"
-start_wavelength = 1553
-end_wavelength = 1554
-wavelength_step = 0.01
+device_name = "ring-16"
+start_wavelength = 1545
+end_wavelength = 1555
+wavelength_step = 0.02
 
 # Instrument parameters
 powermeter_serial = 'P0001012'
