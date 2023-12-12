@@ -15,9 +15,12 @@ from util import timestamp
 
 binwidth = 1000
 n_bins = 100
-trigger = 0.03
+trigger = 0.02
 power = 8  # dBm
 duration = 60
+
+channel_a = swabian_ch2
+channel_b = swabian_ch1
 
 device = "ring-16"
 testing = False
@@ -44,16 +47,17 @@ with client.createProxy(host=swabian_host, port=swabian_port) as TT:
     with open("swabian_conf.json", 'w') as conf_file:
         json.dump(conf, conf_file, indent=4)
 
-    hist = TT.Counter(tagger, [swabian_ch2], binwidth=binwidth, n_values=n_bins)
+    hist = TT.Counter(tagger, [channel_a, channel_b], binwidth=binwidth, n_values=n_bins)
     # print(dir(hist))
     hist.startFor(int(duration*1e12), clear=True)
 
     x = hist.getIndex()
     while hist.isRunning():
         plt.pause(0.1)
-        y = hist.getData()[0]
+        a, b = hist.getData()
         ax.clear()
-        ax.plot(x, y)
+        ax.plot(x, a)
+        # ax.plot(x, b)
         # ax.set_xlim(-325, -225)
 
     filename = f"{device} binwidth_{binwidth}ps trigger_{trigger}V power_{power}dBm {timestamp()}.csv"

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import time
 from datetime import datetime
 from TimeTaggerRPC import client
-from swabian_param import swabian_host, swabian_port, swabian_ch1, swabian_ch2, swabian_chs, shaun_ch1, shaun_ch2, shaun_chs
+from parameters import swabian_host, swabian_port, swabian_ch1, swabian_ch2, swabian_chs, shaun_ch1, shaun_ch2, shaun_chs
 import swabian.detectors as det
 import util
 

@@ -15,7 +15,7 @@ from util import timestamp
 
 binwidth = 1000
 n_bins = 100
-trigger = 0.03
+trigger = 0.06
 power = 8  # dBm
 duration = 60
 
