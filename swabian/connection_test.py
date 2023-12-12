@@ -8,11 +8,11 @@ import numpy as np
 from util import timestamp
 
 device = "ring-24"
-binwidth = 1000
-n_bins = 100
+binwidth = 5
+n_bins = 50
 trigger = 0.07
 duration = 60
-testing = False
+testing = True
 
 fig, ax = plt.subplots()
 plt.show(block=False)
@@ -23,7 +23,7 @@ with client.createProxy(host=swabian_host, port=swabian_port) as TT:
     tagger.setTestSignal(swabian_ch1, testing)
     tagger.setTestSignal(swabian_ch2, testing)
     tagger.setDelayHardware(swabian_ch1, 0)
-    tagger.setDelayHardware(swabian_ch2, 0)
+    tagger.setDelayHardware(swabian_ch2, 200)
     tagger.setDelaySoftware(swabian_ch1, 0)
     tagger.setDelaySoftware(swabian_ch2, 0)
     tagger.setTriggerLevel(swabian_ch1, trigger)

@@ -1,7 +1,7 @@
 {
     "channel number scheme": 2,
     "configure version": 1,
-    "current time": "2023-12-12 10:11:38 +0000",
+    "current time": "2023-12-12 11:49:58 +0000",
     "devices": [
         {
             "PCB version": "1.5 (1)",
@@ -198,7 +198,7 @@
                 2000
             ],
             "delay hardware": [
-                26200,
+                0,
                 0
             ],
             "delay software": [
@@ -220,7 +220,7 @@
             ],
             "resolution": "Standard",
             "resolution rms": 9.0,
-            "trigger level": 0.08999008163576727
+            "trigger level": 0.030022125581750103
         },
         {
             "channel": [
@@ -262,7 +262,7 @@
             ],
             "resolution": "Standard",
             "resolution rms": 9.0,
-            "trigger level": 0.08999008163576727
+            "trigger level": 0.030022125581750103
         },
         {
             "channel": [
@@ -771,8 +771,8 @@
     ],
     "led bitmask": 0,
     "registered channels": [
-        8,
-        11
+        5,
+        6
     ],
     "resolution": "Standard",
     "serial": "2023000TM0",

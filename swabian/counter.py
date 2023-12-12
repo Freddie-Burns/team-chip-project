@@ -44,14 +44,14 @@ with client.createProxy(host=swabian_host, port=swabian_port) as TT:
     with open("swabian_conf.json", 'w') as conf_file:
         json.dump(conf, conf_file, indent=4)
 
-    hist = TT.Correlation(tagger, swabian_ch1, swabian_ch2, binwidth=binwidth, n_bins=n_bins)
+    hist = TT.Counter(tagger, [swabian_ch2], binwidth=binwidth, n_values=n_bins)
     # print(dir(hist))
     hist.startFor(int(duration*1e12), clear=True)
 
     x = hist.getIndex()
     while hist.isRunning():
         plt.pause(0.1)
-        y = hist.getData()
+        y = hist.getData()[0]
         ax.clear()
         ax.plot(x, y)
         # ax.set_xlim(-325, -225)
