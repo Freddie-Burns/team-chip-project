@@ -2,6 +2,7 @@ from pathlib import Path
 from TimeTaggerRPC import client
 from parameters import swabian_host, swabian_port, swabian_ch1, swabian_ch2
 import json
+from time import sleep
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -17,16 +18,16 @@ binwidth = 1000
 n_bins = 100
 trigger = 0.02
 power = 8  # dBm
-duration = 60
+duration = 5
 
 channel_a = swabian_ch2
 channel_b = swabian_ch1
 
-device = "ring-16"
+device = "ring-12"
 testing = False
 
-fig, ax = plt.subplots()
-plt.show(block=False)
+# fig, ax = plt.subplots()
+# plt.show(block=False)
 
 
 with client.createProxy(host=swabian_host, port=swabian_port) as TT:
@@ -47,24 +48,11 @@ with client.createProxy(host=swabian_host, port=swabian_port) as TT:
     with open("swabian_conf.json", 'w') as conf_file:
         json.dump(conf, conf_file, indent=4)
 
-    hist = TT.Counter(tagger, [channel_a, channel_b], binwidth=binwidth, n_values=n_bins)
-    # print(dir(hist))
-    hist.startFor(int(duration*1e12), clear=True)
 
-    x = hist.getIndex()
-    while hist.isRunning():
-        plt.pause(0.1)
-        a, b = hist.getData()
-        ax.clear()
-        ax.plot(x, a)
-        # ax.plot(x, b)
-        # ax.set_xlim(-325, -225)
-
-    filename = f"{device} binwidth_{binwidth}ps trigger_{trigger}V power_{power}dBm {timestamp()}.csv"
-    save_path = Path("../data/swabian")
-    file_path = save_path / filename
-    data = np.stack((x, y), axis=1)
-    np.savetxt(file_path, data, delimiter=',')
-
-    print("Done!")
-    plt.show()
+    time_tagger = TT.createTimeTagger()
+    sync = TT.SynchronizedMeasurements(time_tagger)
+    singles_counter = TT.Counter(tagger, [channel_a, channel_b], binwidth=int(duration * 1e12), n_values=1)
+    singles_counter.startFor(int(duration * 1e12), clear=True)
+    sleep(duration+1)
+    sync.registerMeasurement(singles_counter)
+    print(singles_counter.getData())

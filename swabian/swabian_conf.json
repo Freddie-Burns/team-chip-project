@@ -1,7 +1,7 @@
 {
     "channel number scheme": 2,
     "configure version": 1,
-    "current time": "2023-12-12 12:53:40 +0000",
+    "current time": "2023-12-13 12:31:08 +0000",
     "devices": [
         {
             "PCB version": "1.5 (1)",
@@ -52,7 +52,7 @@
             ],
             "resolution": "Standard",
             "resolution rms": 9.0,
-            "trigger level": 0.5
+            "trigger level": 0.07999542229343115
         },
         {
             "channel": [
@@ -136,7 +136,7 @@
             ],
             "resolution": "Standard",
             "resolution rms": 9.0,
-            "trigger level": 0.5
+            "trigger level": 0.08999008163576727
         },
         {
             "channel": [
@@ -220,7 +220,7 @@
             ],
             "resolution": "Standard",
             "resolution rms": 9.0,
-            "trigger level": 0.020027466239413982
+            "trigger level": 0.050011444266422345
         },
         {
             "channel": [
@@ -262,7 +262,7 @@
             ],
             "resolution": "Standard",
             "resolution rms": 9.0,
-            "trigger level": 0.020027466239413982
+            "trigger level": 0.050011444266422345
         },
         {
             "channel": [
@@ -771,8 +771,10 @@
     ],
     "led bitmask": 0,
     "registered channels": [
-        8,
-        11
+        1,
+        3,
+        5,
+        6
     ],
     "resolution": "Standard",
     "serial": "2023000TM0",

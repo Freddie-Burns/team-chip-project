@@ -7,17 +7,17 @@ import matplotlib.pyplot as plt
 
 
 COLOURS = ['b', 'g', 'r', 'c', 'm', 'y']
-DWDM_CHANNELS = (31, 33, 35, 37)  # channels to show transmission data
+DWDM_CHANNELS = (30, 33, 35, 37, 40)  # channels to show transmission data
 DWDM_DIR = Path("../data/dwdm")
 RESONANCE_DIR = Path("../data/resonance")
 X_LIM = (1545, 1555)
-Y_LIM = (-14, -6)
+Y_LIM = (-16, -5)
 
 # Usually only plot one resonance file
 # Can plot more than one to compare
 # e.g. to see if resonances shift over time
 FILES = [
-    "ring-16 2023-12-12 10-26-18.csv",
+    "ring-12 2023-12-13 10-04-47.csv",
 ]
 
 

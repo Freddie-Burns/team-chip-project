@@ -7,7 +7,7 @@ import numpy as np
 
 from util import timestamp
 
-device = "ring-24"
+device = "testing"
 binwidth = 5
 n_bins = 50
 trigger = 0.07
