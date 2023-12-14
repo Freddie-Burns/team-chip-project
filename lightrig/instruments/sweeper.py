@@ -30,6 +30,12 @@ class Sweeper:
 
     def sweep(self, save_path, device_name, start=1540, end=1570, step=0.1):
         """
+        save_path:      pathlib.Path
+                        Directory to save csv swabian file.
+
+        device_name:    string
+                        Name of tested device for file name.
+
         start:          int, float
                         Initial wavelength of sweep in nm.
 
@@ -38,12 +44,6 @@ class Sweeper:
 
         step:           int, float
                         Increment between each wavelength in sweep in nm.
-
-        save_path:      pathlib.Path
-                        Directory to save csv swabian file.
-
-        device_name:    string
-                        Name of tested device for file name.
         """
         # Switch on laser
         try: self.laser.switch_on()
