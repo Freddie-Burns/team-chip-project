@@ -12,9 +12,6 @@ SRC_DIR = Path(__file__).parents[2]
 DWDM_DIR = SRC_DIR / "data" / "dwdm"
 RESONANCE_DIR = SRC_DIR / "data" / "resonance"
 
-X_LIM = (1545, 1555)
-Y_LIM = (-15, -11)
-
 
 def main():
     channels = (30, 33, 35, 37, 40)  # channels to show transmission data
@@ -23,18 +20,20 @@ def main():
     # Can plot more than one to compare
     # e.g. to see if resonances shift over time
     files = ["ring-12 2023-12-13 10-04-47.csv", ]
+    xlim = (1545, 1555)
+    ylim = (-15, -11)
 
     # Create matplotlib plot and set y-axis limits
     ax = plt.subplot()
-    plt.ylim(Y_LIM)
-    plt.xlim(X_LIM)
+    plt.ylim(ylim)
+    plt.xlim(xlim)
     plot_channel_centers(ax)
     plot_transmission_data(ax, files, "ring-12")
-    plot_dwdm_transmission(ax, channels)
+    plot_dwdm_transmission(ax, channels, ylim)
     plt.show()
 
 
-def plot_channel_centers(ax, channels=range(51)):
+def plot_channel_centers(ax, channels=range(51), ylim=(-50, 0)):
     """Plot all DWDM channel central wavelengths as dotted lines."""
     print(os.listdir(DWDM_DIR))
     channel_data = pd.read_csv(DWDM_DIR / "channel_wavelength_table.csv")
@@ -42,8 +41,8 @@ def plot_channel_centers(ax, channels=range(51)):
         wavelength = channel_data.iloc[i]["wavelength"]
         channel = channel_data.iloc[i]["channel"]
         if channel not in channels: continue  # Don't include this channel
-        ax.vlines(wavelength, *Y_LIM, 'k', ':')
-        ax.text(wavelength-0.1, Y_LIM[1]+0.1, f"{int(channel)}", rotation=90)
+        ax.vlines(wavelength, *ylim, 'k', ':')
+        ax.text(wavelength-0.1, ylim[1]+0.1, f"{int(channel)}", rotation=90)
 
 
 def plot_transmission_data(ax, files, labels):
