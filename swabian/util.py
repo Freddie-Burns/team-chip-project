@@ -1,17 +1,8 @@
-import pathlib
+from pathlib import Path
 from datetime import datetime
-import requests
 
 
-def notify_mobile(message=''):
-    response = requests.post(
-        'https://maker.ifttt.com/trigger/bto_notify/with/key/123456789',
-        data={
-            'value1': message,
-        }
-    )
-    print("IFTTT: ", response.text)
-    return response
+SETTINGS_DIR = Path("../data/swabian/setting_sweeps")
 
 
 def user_confirm(prompt="Continue? [y]/n", default=True):
@@ -31,19 +22,6 @@ def user_confirm_exit(prompt="Continue?"):
     if result is False:
         exit(2)
 
-
-def get_save_dir(measurement_time=datetime.now()):
-    current_dir = pathlib.Path(__file__).parent.resolve()
-    save_dir = current_dir.parent / 'swabian' / measurement_time.strftime('%Y-%m-%d')
-    save_dir.mkdir(parents=True, exist_ok=True)
-    return save_dir
-
-
-def get_latest_save_dir():
-    current_dir = pathlib.Path(__file__).parent.resolve()
-    data_dir = current_dir.parent / 'swabian'
-    save_dir = sorted(data_dir.glob('*-*-*'), reverse=True)[0]
-    return save_dir
 
 def timestamp():
     """Time stamping for swabian save"""

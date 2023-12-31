@@ -1,11 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import util
-from datetime import date
+from util import SETTINGS_DIR
 
-save_dir = util.get_save_dir(date(2023, 12, 7))
-sweep_file = save_dir / 'SNSPD_trigger_level_sweep_113848.npz'
-sweep_data = np.load(sweep_file,)
+
+sweep_data = np.load(SETTINGS_DIR / "SNSPD_trigger_level_sweep_121948.npz")
 shaun_chs = sweep_data['shaun_chs']
 print(sweep_data['shaun_chs'])
 print(sweep_data['bias_current'])
