@@ -1,10 +1,10 @@
 from pathlib import Path
 from matplotlib import pyplot as plt
 
-from utils import calculate_car
+from plotters.helpers.utils import calculate_car
+
 
 DATA_DIR = Path("../data/swabian/coincidences")
-
 FILES = [
     "ring-12 binwidth_10ps trigger_0.07V power_1dBm integration_120s "
     "2023-12-13 11-22-28.csv",
@@ -22,6 +22,7 @@ FILES = [
     "2023-12-13 10-57-31.csv",
 ]
 
+
 powers = [1, 2, 3, 4, 5, 6, 7]
 cars = []
 for file in FILES:
@@ -31,4 +32,5 @@ for file in FILES:
 plt.scatter(powers, cars, marker='x')
 plt.xlabel("power / dBm")
 plt.ylabel("CAR")
+plt.savefig(r"figures/car_vs_power.png")
 plt.show()
