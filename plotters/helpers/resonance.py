@@ -7,46 +7,49 @@ import matplotlib.pyplot as plt
 
 
 COLOURS = ['b', 'g', 'r', 'c', 'm', 'y']
-DWDM_CHANNELS = (30, 33, 35, 37, 40)  # channels to show transmission data
-DWDM_DIR = Path("../../data/dwdm")
-RESONANCE_DIR = Path("../../data/resonance")
-X_LIM = (1545, 1555)
-Y_LIM = (-15, -12)
 
-# Usually only plot one resonance file
-# Can plot more than one to compare
-# e.g. to see if resonances shift over time
-FILES = [
-    "ring-12 2023-12-13 10-04-47.csv",
-]
+SRC_DIR = Path(__file__).parents[2]
+DWDM_DIR = SRC_DIR / "data" / "dwdm"
+RESONANCE_DIR = SRC_DIR / "data" / "resonance"
+
+X_LIM = (1545, 1555)
+Y_LIM = (-15, -11)
 
 
 def main():
+    channels = (30, 33, 35, 37, 40)  # channels to show transmission data
+
+    # Usually only plot one resonance file
+    # Can plot more than one to compare
+    # e.g. to see if resonances shift over time
+    files = ["ring-12 2023-12-13 10-04-47.csv", ]
+
     # Create matplotlib plot and set y-axis limits
     ax = plt.subplot()
     plt.ylim(Y_LIM)
     plt.xlim(X_LIM)
     plot_channel_centers(ax)
-    plot_transmission_data(ax)
-    plot_dwdm_transmission(ax)
-    plot_fourier_transform(FILES[0])
+    plot_transmission_data(ax, files, "ring-12")
+    plot_dwdm_transmission(ax, channels)
     plt.show()
 
 
-def plot_channel_centers(ax):
+def plot_channel_centers(ax, channels=range(51)):
     """Plot all DWDM channel central wavelengths as dotted lines."""
-    channels = pd.read_csv(DWDM_DIR / "channel_wavelength_table.csv")
-    for i in channels.index:
-        wavelength = channels.iloc[i]["wavelength"]
-        channel = channels.iloc[i]["channel"]
+    print(os.listdir(DWDM_DIR))
+    channel_data = pd.read_csv(DWDM_DIR / "channel_wavelength_table.csv")
+    for i in channel_data.index:
+        wavelength = channel_data.iloc[i]["wavelength"]
+        channel = channel_data.iloc[i]["channel"]
+        if channel not in channels: continue  # Don't include this channel
         ax.vlines(wavelength, *Y_LIM, 'k', ':')
-        ax.text(wavelength+0.05, Y_LIM[0]+0.05, f"{int(channel)}", rotation=90)
+        ax.text(wavelength-0.1, Y_LIM[1]+0.1, f"{int(channel)}", rotation=90)
 
 
-def plot_transmission_data(ax):
+def plot_transmission_data(ax, files, labels):
     """Plot transmission against frequency for specified csv files."""
     data = []
-    for file in FILES:
+    for file in files:
         datum = pd.read_csv(
             RESONANCE_DIR / file,
             header=None,
@@ -56,23 +59,23 @@ def plot_transmission_data(ax):
 
     # Find the highest transmission
     # Adjust all sweeps to this for easier comparison
-    maxima = []
-    for datum in data:
-        maxima.append(datum["transmission"].max())
-    max_transmission = max(maxima)
-    for datum in data:
-        diff = max_transmission - datum["transmission"].max()
-        datum["transmission"] += diff
+    if len(files) > 1:
+        maxima = []
+        for datum in data:
+            maxima.append(datum["transmission"].max())
+        max_transmission = max(maxima)
+        for datum in data:
+            diff = max_transmission - datum["transmission"].max()
+            datum["transmission"] += diff
 
     # Plot adjusted transmission data
     for i, datum in enumerate(data):
-        file = FILES[i]
         datum.plot(
             kind='line',
             x="wavelength",
             y="transmission",
             ax=ax,
-            label=file[:-4],  # Remove .csv from label
+            label=labels[i]  # Remove .csv from label
         )
 
 
@@ -93,18 +96,17 @@ def plot_fourier_transform(file):
     plt.plot(original)
 
 
-def plot_dwdm_transmission(ax):
+def plot_dwdm_transmission(ax, channels):
     """Plot transmission data for specified DWDM channels"""
-    channel_number = None
     dwdm_filenames = []
-    channels = []
 
     for dwdm_filename in os.listdir(DWDM_DIR):
-        try: channel_number = int(dwdm_filename[8:10])
-        except ValueError: pass  # Some files will not have a channel number
-        if channel_number in DWDM_CHANNELS:
-            dwdm_filenames.append(dwdm_filename)
-            channels.append(channel_number)
+        try:
+            channel = int(dwdm_filename[8:10])
+            if channel in channels:
+                dwdm_filenames.append(dwdm_filename)
+        except ValueError:
+            pass  # Some files will not have a channel number
 
     for i, filename in enumerate(dwdm_filenames):
         file_path = DWDM_DIR / filename
