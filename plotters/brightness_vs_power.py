@@ -1,8 +1,9 @@
 from pathlib import Path
 from matplotlib import pyplot as plt
+import numpy as np
 import seaborn as sns
 
-from plotters.helpers.utils import calculate_car
+from plotters.helpers.utils import calculate_brightness
 
 
 sns.set()
@@ -26,16 +27,33 @@ FILES = [
     "2023-12-13 10-57-31.csv",
 ]
 
-
+times = [120, 120, 120, 120, 120, 120, 180]
 powers = [1, 2, 3, 4, 5, 6, 7]
-cars = []
-for file in FILES:
+brightnesses = []
+for i, file in enumerate(FILES):
     filepath = DATA_DIR / file
-    cars.append(calculate_car(filepath))
+    time = times[i]
+    power = powers[i]
+    brightnesses.append(calculate_brightness(filepath, time, power))
 
-plt.scatter(powers, cars, marker='x')
-plt.xlabel("power / dBm")
-plt.ylabel("CAR")
-plt.title("Ring 12 CAR vs power")
-plt.savefig(r"figures/car_vs_power.png")
+mean_brightness = np.mean(brightnesses)
+std_brightness = np.std(brightnesses)
+
+fig, ax = plt.subplots()
+plt.scatter(powers, brightnesses, marker='x')
+plt.xlabel("power (dBm)")
+plt.ylabel("brightness (pairs / s / mW^2)")
+plt.title("Ring 12 brightness vs pump power")
+
+# Place textbox with mean and std
+textstr = '\n'.join((
+    f'$\mu={mean_brightness:.1f}$',
+    f'$\sigma={std_brightness:.1f}$',
+))
+props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+ax.text(0.05, 0.05, textstr, transform=ax.transAxes, fontsize=14,
+        verticalalignment='bottom', bbox=props)
+
+
+plt.savefig(r"figures/brightness_vs_power.png")
 plt.show()

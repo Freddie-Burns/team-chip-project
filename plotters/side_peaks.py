@@ -6,7 +6,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import seaborn as sns
 from matplotlib import pyplot as plt
+
+
+sns.set()
+sns.set_context(rc={'patch.linewidth': 0.0})
 
 
 DATA_DIR = Path("../data/swabian/coincidences")
@@ -29,12 +34,12 @@ plt.figure()
 plt.bar(
        delay,
        coins,
-       color='g',
-       alpha=0.5,
+       # color='g',
+       # alpha=0.5,
        width=binwidth,
        label="coincidences",
 )
-plt.title("ring-12 coincidence side peaks")
+plt.title("Ring 12 coincidence side peaks")
 plt.xlabel("delay / ns")
 plt.ylabel("coincidences / bin")
 plt.savefig(SAVE_PATH)

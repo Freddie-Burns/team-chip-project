@@ -39,11 +39,12 @@ def get_mean_accs(delay, coins, mu, sig):
     return np.mean(all_accs)
 
 
-def plot_coincidences(file_path):
+def plot_coincidences(file_path, ax=None):
     delay, coins, binwidth, popt, fit_data = gaussian_fit(file_path)
     a, mu, sig = popt
 
-    plt.figure()
+    if ax is None: plt.figure()
+
     plt.bar(
         delay,
         coins,
