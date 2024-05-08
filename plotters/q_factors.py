@@ -46,6 +46,20 @@ PEAK_WAVELENGTHS = {
     # 17: [1549.6,],
     # 24: [1547.7,],
 }
+# Radius, gap, textbox coords
+RING_DATA = {
+    1: [0.251, 21, (0.05, 0.05)],
+    3: [0.28, 21, (0.54, 0.05)],
+    4: [0.299, 21, (0.92, 0.05)],
+    5: [0.251, 36, (0.05, 0.25)],
+    7: [0.28, 36, (0.54, 0.25)],
+    9: [0.251, 52, (0.05, 0.58)],
+    11: [0.28, 52, (0.51, 0.58)],
+    12: [0.299, 52, (0.89, 0.58)],
+    13: [0.251, 67, (0.05, 0.9)],
+    15: [0.28, 67, (0.51, 0.9)],
+    16: [0.299, 67, (0.89, 0.9)],
+}
 
 
 def main():
@@ -54,7 +68,8 @@ def main():
     plot_mean_q_factors()
 
 
-def plot_mean_q_factors():
+def plot_mean_q_factors(scatter=True):
+    ax = plt.subplot()
     mean_q_factors = {}
     for ring, file in FILES.items():
         peaks = PEAK_WAVELENGTHS[ring]
@@ -65,6 +80,43 @@ def plot_mean_q_factors():
             q_factors.append(q)
         mean_q_factors[ring] = np.mean(q_factors)
     q_factor_heatmap(mean_q_factors)
+
+    if scatter:
+        # Scatter plot ring labels
+        labels = []
+        gaps = []
+        radii = []
+        box_coords = []
+        for ring, coords in RING_DATA.items():
+            labels.append(str(ring))
+            gaps.append(coords[0])
+            radii.append(coords[1])
+            box_coords.append(coords[2])
+        plt.scatter(gaps, radii, color='wheat', marker='o')
+        plt.scatter(gaps, radii, marker='x')
+
+        for i, label in enumerate(labels):
+            print(label)
+            props = dict(boxstyle='round', facecolor='wheat')
+            ax.text(
+                # gaps[i],
+                # radii[i],
+                *box_coords[i],
+                label,
+                transform=ax.transAxes,
+                fontsize=14,
+                verticalalignment='bottom',
+                bbox=props
+            )
+
+    if LOWPASS:
+        plt.savefig("figures/q_factor_heatmap_lowpass.png")
+    elif scatter:
+        plt.savefig("figures/q_factor_heatmap_labeled.png")
+    else:
+        plt.savefig("figures/q_factor_heatmap.png")
+
+    plt.show()
 
 
 def q_factor_heatmap(q_factors: dict):
@@ -79,6 +131,8 @@ def q_factor_heatmap(q_factors: dict):
     y = np.array(params["Radius"])
     z = np.array(params["Q Factor"])
 
+    print("Highest Q factor:", max(z))
+
     X, Y = np.meshgrid(
         np.linspace(np.min(x), np.max(x), 20),
         np.linspace(np.min(y), np.max(y), 20)
@@ -90,11 +144,6 @@ def q_factor_heatmap(q_factors: dict):
     plt.xlabel(r"gap / $\mu$m")
     plt.ylabel(r"radius / $\mu$m")
     plt.title("Ring resonator Q factor")
-    if LOWPASS:
-        plt.savefig("figures/q_factor_heatmap_lowpass.png")
-    else:
-        plt.savefig("figures/q_factor_heatmap.png")
-    plt.show()
 
 
 def plot_lorentzian(file, mu):
@@ -147,12 +196,18 @@ def fit_lorentzian(filepath, mu, fsr=0.5, plot=False, filt=False):
     guess = (a, mu, lam, c)
     popt, pcov = curve_fit(lorentzian, wavelength, transmission, guess)
     a, mu, lam, c = popt
-    lorentzian_fit = lorentzian(wavelength, a, mu, lam, c)
 
     if plot:
         plt.figure()
-        plt.plot(wavelength, transmission)
-        plt.plot(wavelength, lorentzian_fit)
+        plt.scatter(wavelength, transmission, color='k', marker='x')
+
+        # Upsample wavelengths for plotting Lorentzian
+        wavelength = np.linspace(min(wavelength), max(wavelength), 1001)
+        lorentzian_fit = lorentzian(wavelength, a, mu, lam, c)
+        plt.plot(wavelength, lorentzian_fit, label="Lorentzian fit")
+        plt.legend(loc="lower left")
+        plt.xlabel("wavelength / nm")
+        plt.ylabel("transmission / dB")
 
     q_factor = mu / lam
     print(q_factor)

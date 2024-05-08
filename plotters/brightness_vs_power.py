@@ -54,6 +54,5 @@ props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
 ax.text(0.05, 0.05, textstr, transform=ax.transAxes, fontsize=14,
         verticalalignment='bottom', bbox=props)
 
-
 plt.savefig(r"figures/brightness_vs_power.png")
 plt.show()

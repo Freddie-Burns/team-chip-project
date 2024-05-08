@@ -35,7 +35,7 @@ plt.bar(
        delay,
        coins,
        # color='g',
-       # alpha=0.5,
+       alpha=0.8,
        width=binwidth,
        label="coincidences",
 )

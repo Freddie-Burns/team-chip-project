@@ -33,6 +33,8 @@ for file in FILES:
     filepath = DATA_DIR / file
     cars.append(calculate_car(filepath))
 
+print("Highest CAR", max(cars))
+
 plt.scatter(powers, cars, marker='x')
 plt.xlabel("power / dBm")
 plt.ylabel("CAR")
